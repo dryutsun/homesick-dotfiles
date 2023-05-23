@@ -1,0 +1,24 @@
+#!/bin/env bash
+# ===== [ BASH ] ======
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+# ===== [ SHORTCUTS ] ======
+
+alias nowzk='nvim "$(date +'%Y-%m-%d').md"'
+alias nvim='/home/t3nj1n/Apps/nvim'
+alias critty='nvim /home/t3nj1n/.config/alacritty/alacritty.yml'
+alias fcd='cd $(fdfind * -type d | fzf-tmux -p --reverse)'
+alias fuzz='fdfind --type f --hidden --exclude .git | fzf-tmux -p --reverse | xargs nvim'
+alias nvimmy="nvim /home/t3nj1n/.config/nvim/lua"
+alias python="/usr/bin/python3"
+alias pico8='/home/t3nj1n/.lexaloffle/pico-8/pico-8/pico8'
+# ===== [ PROGRAM ALIASES ] =====
+alias makenote='bash /usr/bin/makenote.sh'
+alias orca='/home/t3nj1n/30-SOFTWARE/Orca-c/build/orca'
+alias gf2="/home/t3nj1n/30-SOFTWARE/gf/gf2"
+alias pio="/home/t3nj1n/.local/bin/pio"
+alias dither="/home/t3nj1n/0B-SCRIPTS/dither/dither.py"
+# ===== [ FLAG ALTERNATIONS ] ======
+alias f='nvim "$(fzf)"'
+alias l='ls -CF'
+alias la='ls -A'
+alias ll='ls -alF'

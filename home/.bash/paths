@@ -1,0 +1,26 @@
+#!/bin/bash
+export PATH=/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+export GOPATH='/home/t3nj1n/00-PROGRAMMING/09-GO/'
+# ===== [ PROGRAMS GENERAL ] ======
+export PATH=$PATH:/snap/bin
+export PATH=$PATH:/usr/bin
+export PATH=$PATH:/home/t3nj1n/.local/bin
+export PATH=$PATH:/root/.local/bin
+export PATH=$PATH:/home/t3nj1n/0A-SCRIPTS/
+export PATH=$PATH:/home/t3nj1n/Apps
+export PATH=$PATH:/home/t3nj1n/.lexaloffle/pico-8/pico-8/pico8
+# ===== [ EDITORS ] ======
+export PATH=$HOME/.emacs.d/bin:$PATH
+
+# ===== [ NON /BIN/ PROGRAMS ] ======
+export PATH=$PATH:/home/t3nj1n/computer_science/elements_of_computing_systems/nand2tetris/tools 
+
+
+# ===== [ PROGRAMMING RUNTIMES ] ======
+export PATH=$PATH:/usr/bin/racket/bin
+export PATH=$PATH:/usr/local/go/bin
+
+export PATH=$HOME/.cargo/env:$PATH
+export PATH=$HOME/.rvm/bin:$PATH
+
+

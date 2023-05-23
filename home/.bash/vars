@@ -1,0 +1,6 @@
+#!/bin/bash
+
+export ALIASES="~/.bash.d/aliases"
+export PATHS="~/.bash.d/paths"
+export EXPORTS="~/.bash.d/exports"
+export TERM=alacritty

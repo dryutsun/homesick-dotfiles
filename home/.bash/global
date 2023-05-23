@@ -1,0 +1,179 @@
+#!/bin/env bash
+
+export HISTCONTROL=ignoreboth # ignore duplicate lines
+export HISTSIZE=10000  # set history
+export HISTFILESIZE=$HISTSIZE
+export TERM=alacritty
+
+if [ -d "$HOME/bin" ]; then
+  PATH="$HOME/bin:$PATH"
+fi
+
+if which ruby >/dev/null 2>&1 && which gem >/dev/null 2>&1; then
+  PATH="$PATH:$(ruby -rrubygems -e 'puts Gem.user_dir')/bin"
+fi
+
+export PATH="/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin:$PATH"
+
+if [ -d "/usr/local/man" ]; then
+  MANPATH="/usr/local/man:$MANPATH"
+fi
+
+if [ -d "/usr/local/mysql/man" ]; then
+  MANPATH="/usr/local/man:$MANPATH"
+fi
+
+if [ -d "/usr/local/git/man" ]; then
+  MANPATH="/usr/local/git/man:$MANPATH"
+fi
+
+export MANPATH
+# larger bash history (allow 32³ entries; default is 500)
+export HISTSIZE=${HISTSIZE:-32768} # resize history size
+export HISTFILESIZE=$HISTSIZE
+
+# ignore duplicates commands in the historylog
+export HISTCONTROL=$HISTCONTROL${HISTCONTROL+:}ignoredups
+
+# make some commands not show up in history
+export HISTIGNORE=${HISTIGNORE:-"shutdown*:halt*:poweroff*:hibernate*:rm -rf*"}
+
+
+export HISTTIMEFORMAT=${HISTTIMEFORMAT:-"%Y-%m-%d %H:%M:%S"}
+
+# Cucumber / Autotest inte  gration
+export AUTOFEATURE=${AUTOFEATURE:-"true autotest"}
+
+# use UTF-8
+setLocale()
+{
+  if [[ "$CONFIG_CHARSET_UTF8" == "true" ]]; then
+    local i pattern localeOutput localeOutputArray line
+
+    localeOutput=$(locale -a 2>/dev/null)
+    localeOutputArray=()
+    while read -r line; do
+      localeOutputArray+=("$line")
+    done <<< "$localeOutput"
+
+    # check if $CONFIG_LANG isset and available
+    if [ "$CONFIG_LANG" != "" ] && [ -n "$(echo $localeOutput | grep $CONFIG_LANG)" ] ; then
+      pattern="${CONFIG_LANG}\.(UTF-8|UTF8|utf-8|utf8)$"
+    else
+      pattern=".{2,2}_.{2,2}\.(UTF-8|UTF8|utf-8|utf8)$"
+    fi
+
+    for i in "${localeOutputArray[@]}"; do
+      if [[ "$i" =~ $pattern ]]; then
+        export LC_ALL=${i};
+        export LANG=${i};
+        export LANGUAGE=${i};
+        return 0;
+      fi
+    done
+  fi
+
+  return 1
+}
+setLocale
+
+if [ $? -eq 1 ]; then
+  export UTF8_LANG="0"
+else
+  export UTF8_LANG="1"
+fi
+
+unset -f setLocale
+
+#tty detection
+if [[ "$(tty | grep -o '/dev/tty')" == "/dev/tty" ]]; then
+  export IS_TTY=1
+else
+  export IS_TTY=0
+fi
+
+
+# make less the default pager, and specify some useful defaults
+less_options=(
+  # If the entire text fits on one screen, just show it and quit. (Be more
+  # like "cat" and less like "more".)
+  --quit-if-one-screen
+
+  # Do not clear the screen first.
+  --no-init
+
+  # Like "smartcase" in Vim: ignore case unless the search pattern is mixed.
+  --ignore-case
+
+  # Do not automatically wrap long lines.
+  # This is a problem for --quit-if-one-screen if there are chopped lines
+  #--chop-long-lines
+
+  # Allow ANSI colour escapes, but no other escapes.
+  --RAW-CONTROL-CHARS
+
+  # Do not ring the bell when trying to scroll past the end of the buffer.
+  --quiet
+
+  # Do not complain when we are on a dumb terminal.
+  --dumb
+);
+export LESS="-iMX --shift 5 ${less_options[*]}"
+unset less_options
+
+# highlight section titles in manual pages
+export LESSHISTFILE="-"     # no less history file
+if [ "$UID" != 0 ]; then
+    export LESSCHARSET=${LESSCHARSET:-"utf-8"}
+
+    [ -x "`which lesspipe 2>/dev/null`" ] && eval "$(lesspipe)"
+
+    # yep, 'less' can colorize manpages
+    export LESS_TERMCAP_mb=$'\E[01;31m'
+    export LESS_TERMCAP_md=$'\E[01;31m'
+    export LESS_TERMCAP_me=$'\E[0m'
+    export LESS_TERMCAP_se=$'\E[0m'
+    export LESS_TERMCAP_so=$'\E[01;44;33m'
+    export LESS_TERMCAP_ue=$'\E[0m'
+    export LESS_TERMCAP_us=$'\E[01;32m'
+fi
+
+# don’t clear the screen after quitting a manual page
+export MANPAGER=${MANPAGER:-"less -X"}
+
+# try to enable colored output
+if [ -x /usr/bin/dircolors ]; then
+  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+fi
+
+# "ls" default options
+export LS_OPTIONS=${LS_OPTIONS:-"-hFN --color=auto"}
+
+export GREP_COLOR=${GREP_COLOR:-"1;32"}
+
+# colored GCC (>= v4.9) warnings and errors
+export GCC_COLORS=${GCC_COLORS:-"error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01"}
+
+# lazy add local bin
+LOCAL_BIN="$HOME/.local/bin"
+if [ -d $LOCAL_BIN ]; then
+  export PATH="$PATH:$LOCAL_BIN"
+fi
+
+# lazy add chromium
+if [ -f "/usr/bin/chromium" ]; then
+  export CHROME_BIN="/usr/bin/chromium"
+fi
+if [ -f "/usr/bin/google-chrome" ]; then
+  export CHROME_BIN="/usr/bin/google-chrome"
+fi
+if [ -f "/usr/bin/chromium-browser" ]; then
+  export CHROME_BIN="/usr/bin/chromium-browser"
+fi
+
+# lazy add firefox
+if [ -f "/usr/bin/firefox" ]; then
+  export FIREFOX_BIN="/usr/bin/firefox"
+fi
+
+

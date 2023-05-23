@@ -1,0 +1,94 @@
+# Configuration for Alacritty, the GPU enhanced terminal emulator.
+import:
+  - ~/.config/alacritty/themes/themes/tomorrow_night_bright.yaml
+
+env:
+  TERM: xterm-256color
+
+# font config
+font:
+  normal:
+    # -- bitmap fonts --
+    family: bitbuntufull-scaled
+    # family: bitbuntufull
+    # family: bitocra
+    # family: cherry
+    # family: Cozette
+    # family: creep
+    # family: creep-scaled
+    # family: creep2
+    # family: ctrld
+    # family: dina
+    # family: dweep
+    # family: edges
+    # family: envypn
+    # family: envypn-scaled
+    # family: gohufont
+    # family: kourier
+    # family: lemon
+    # family: montecarlo
+    # family: Scientifica
+    # family: smoothansi
+    # family: tamsyn
+    # family: tamsynmod
+    # family: terminal
+    # family: terminusmodx
+    # family: termsyn
+    # family: uushi
+
+    # -- monospace fonts --
+    # family: Iosevka Fixed Extended
+    # family: JuliaMono Medium
+    # family: FantasqueSansM Nerd Font
+    # family: Hack
+    # family: Hermit
+    # family: Inconsolata SemiBold
+    # family: Consolas
+    # family: iMonolegible
+    # family: Input Mono
+    # family: Monaco
+    # family: Cousine
+    # family: JetBrainsMono Nerd Font Mono
+    # family: Victor Mono Medium
+    # bold:
+    #   family: Iosevka
+    # style: Bold
+  size: 13.0
+  offset: 
+    x: 0
+    y: 4
+# Window Settings
+window:
+  startup_mode: Windowed
+  padding:
+    x: 2
+    y: 2
+  dynamic_padding: false
+  dynamic_title: true
+  # draw_bold_text_with_bright_colors: true
+  scrolling:
+    history: 5000
+  offset:
+    x: 1
+    y: 1
+# shell settings
+shell:
+  program: /bin/bash
+  args:
+    - --login
+  # program: /usr/bin/tmux
+  # args:
+  #   - new-session
+  #   - -A
+  #   - -D
+  #   - -s
+  #   - main
+mouse:
+  tracking: none
+cursor:
+  style:
+    shape: Block
+  vi_mode_style:
+    shape: Block
+
+live_config_reload: true
